@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1B130D">
+<title>Seu carrossel está pronto — Dra. Ana Beatriz Barros</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1B130D;--panel:#271B13;--line:rgba(217,184,119,.22);--gold:#D9B877;--cream:#F6EEE2;--muted:#B9A892;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--cream);font-family:'Montserrat',sans-serif;line-height:1.5;padding-bottom:40px;}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px;}
+header{padding:36px 0 8px;text-align:center;}
+.eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;}
+h1{font-family:'Playfair Display',serif;font-weight:600;font-size:30px;line-height:1.15;margin:10px 0 12px;}
+h1 em{color:var(--gold);font-weight:500;}
+.lead{font-size:14px;color:var(--muted);font-weight:300;}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:24px;}
+.box h2{font-family:'Playfair Display',serif;font-weight:500;font-size:20px;margin-bottom:6px;}
+.box p.s{font-size:12.5px;color:var(--muted);margin-bottom:14px;}
+.btn{display:block;width:100%;border-radius:40px;padding:15px 12px;font:600 14px 'Montserrat',sans-serif;border:1.5px solid var(--gold);cursor:pointer;text-align:center;text-decoration:none;}
+.btn.main{background:var(--gold);color:#241A12;}
+.btn.ghost{background:transparent;color:var(--gold);}
+.btn+.btn{margin-top:10px;}
+.cap{background:#1B130D;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:13.5px;font-weight:300;line-height:1.55;white-space:pre-wrap;margin-bottom:14px;max-height:260px;overflow:auto;}
+.item{margin-top:26px;}
+.item .n{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:8px;}
+.item img{display:block;width:100%;border-radius:12px;border:1px solid var(--line);}
+.item .btn{margin-top:10px;padding:12px;}
+.tip{font-size:12px;color:var(--muted);text-align:center;margin-top:10px;}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--gold);color:#241A12;font-weight:600;font-size:13px;padding:11px 20px;border-radius:30px;z-index:60;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Dra. Ana Beatriz Barros</div>
+    <h1>Seu carrossel está <em>pronto</em></h1>
+    <p class="lead">7 cards em alta qualidade, prontos para postar no Instagram, e a legenda para copiar.</p>
+  </header>
+
+  <div class="box">
+    <h2>Baixar tudo</h2>
+    <p class="s">Compartilhe direto para o Instagram ou salve as 7 imagens na galeria.</p>
+    <button class="btn main" id="btnShare">Compartilhar as 7 imagens</button>
+    <button class="btn ghost" id="btnAll">Baixar todas as imagens</button>
+  </div>
+
+  <div class="box">
+    <h2>Legenda</h2>
+    <p class="s">Toque para copiar e cole na hora de postar.</p>
+    <div class="cap" id="cap">Emagrecer faz bem, mas a sua boca também precisa de cuidado. 🤍 Canetas emagrecedoras (como Mounjaro e Ozempic) podem trazer boca seca, refluxo e mudanças na alimentação, e tudo isso pode refletir nos dentes e na gengiva. A boa notícia: com prevenção e acompanhamento, dá para proteger o seu sorriso. Nunca interrompa o seu tratamento sem falar com o seu médico. Agende sua avaliação pelo WhatsApp (88) 92001-8454. Salve e envie para quem está nessa jornada!
+
+#canetaemagrecedora #mounjaro #ozempic #saudebucal #odontologia #emagrecimento</div>
+    <button class="btn main" id="btnCopy">Copiar legenda</button>
+  </div>
+
+  <div id="items"></div>
+  <p class="tip">Se o botão de baixar não funcionar no seu celular, segure o dedo sobre a imagem e escolha "Salvar" ou "Adicionar às fotos".</p>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const NAMES = ['Capa','Boca seca','Enjoo, refluxo e vômito','Comer muito menos','Emagrecimento rápido','Como proteger o sorriso','Chamada final'];
+const FILES = Array.from({length:7}, (_,i) => 'img/carrossel-0' + (i+1) + '.jpg');
+const el = id => document.getElementById(id);
+function toast(t){ const x = el('toast'); x.textContent = t; x.classList.add('show'); setTimeout(()=>x.classList.remove('show'), 2200); }
+
+el('items').innerHTML = FILES.map((f,i) => `<div class="item">
+  <div class="n">Card ${i+1} · ${NAMES[i]}</div>
+  <img src="${f}" alt="Card ${i+1}">
+  <a class="btn ghost" href="${f}" download="carrossel-0${i+1}.jpg">Baixar este card</a>
+</div>`).join('');
+
+el('btnCopy').addEventListener('click', async () => {
+  const txt = el('cap').textContent;
+  try{ await navigator.clipboard.writeText(txt); toast('Legenda copiada!'); }
+  catch(e){
+    const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast('Legenda copiada!'); }catch(err){ toast('Segure o texto para copiar'); }
+    ta.remove();
+  }
+});
+
+async function getFiles(){
+  return Promise.all(FILES.map(async (f,i) => {
+    const r = await fetch(f); const b = await r.blob();
+    return new File([b], 'carrossel-0'+(i+1)+'.jpg', {type:'image/jpeg'});
+  }));
+}
+
+el('btnShare').addEventListener('click', async () => {
+  try{
+    const files = await getFiles();
+    if(navigator.canShare && navigator.canShare({files})){
+      await navigator.share({files, title:'Carrossel Dra. Ana Beatriz Barros'});
+    } else { toast('Seu aparelho não compartilha direto. Use "Baixar todas".'); }
+  }catch(e){ if(e && e.name !== 'AbortError') toast('Não foi possível compartilhar. Use "Baixar todas".'); }
+});
+
+el('btnAll').addEventListener('click', async () => {
+  toast('Baixando as 7 imagens...');
+  for(let i=0;i<FILES.length;i++){
+    const a = document.createElement('a'); a.href = FILES[i]; a.download = 'carrossel-0'+(i+1)+'.jpg';
+    document.body.appendChild(a); a.click(); a.remove();
+    await new Promise(r => setTimeout(r, 700));
+  }
+});
+</script>
+</body>
+</html>
